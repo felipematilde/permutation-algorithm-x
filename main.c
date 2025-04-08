@@ -3,7 +3,7 @@
 
 void algorithmX(int n);
 void populateWithInt(int*vector, int n);
-bool testK(int* L, int k);
+bool testK(char* A, int k);
 void printA(char*A, int n);
 int permutationsCount = 0;
 int comparisonsCount = 0;
@@ -48,7 +48,7 @@ X2:
 	attributionsCount += 2;
 	
 X3:
-	A[k] = q+64;
+	A[k] = q+64; //ASCII
 	attributionsCount++;
 	comparisonsCount++;
 	if (!testK(A, k)) {
@@ -89,19 +89,35 @@ X6:
 	goto X5;
 
 XEND:
-	printf("---------- END ----------");
+	printf("\n---------- END ----------\n");
 }
 
 void populateWithInt(int* vector, int n) {
 	for (int i = 0; i < n; i++) {
 		vector[i] = i+1;
 	}
+	attributionsCount += (n + 1) + n;
+	comparisonsCount += (n + 1);
 }
 
-bool testK(int* L, int k) {
+bool testK(char* A, int k) {
+	int letter_A = 65;
+	int letter_B = 66;
+	int letter_C = 67;
 
+	comparisonsCount++;
+	if (k == 1) {
+		comparisonsCount++;
+		attributionsCount++;
+		return A[1] <= letter_C ? false : true; //Remove permutations that start with A, B or C
+	}
+	else if (k == 2) {
+		comparisonsCount += 2;
+		attributionsCount++;
+		return A[2] >= letter_B ? false : true; //Keep only permutations which second character is A
+	}
+	attributionsCount++;
 	return true;
-
 }
 
 void printA(char*A, int n) {
